@@ -1,5 +1,5 @@
 Attribute VB_Name = "FunctionReplace"
-'Blackman & Sloop Excel Add-In, v1.2 (5/15/14)
+'Blackman & Sloop Excel Add-In, v1.3 (12/17/14)
 
 Sub RunReplaceFunctions(control As IRibbonControl)
     On Error Resume Next
@@ -37,9 +37,9 @@ Sub RunReplaceFunctions(control As IRibbonControl)
     Dim matches As MatchCollection
     Dim repLevel, repStart, repFormula As String
     With re
-      .Pattern = "([a-z]+\()|(\))|([""].+[""])"
-      .Global = True
-      .IgnoreCase = True
+        .Pattern = "([a-z]+\()|(\))|([""][.+|""][""])"
+        .Global = True
+        .IgnoreCase = True
     End With
     failure = False: failures = 0
     i = 1
@@ -48,7 +48,7 @@ Sub RunReplaceFunctions(control As IRibbonControl)
         Application.StatusBar = "Replacing formula " & i & " of " & inter.Cells.count
         If c.Formula <> "" Then
             'check if the cell contains formulas
-            If re.Test(c.Formula) Then
+            If left(c.Formula, 1) = "=" And re.Test(c.Formula) Then
                 'get the collection of functions in the cell
                 Set matches = re.Execute(c.Formula)
                 repLevel = -999: repStart = 2: repFormula = "="
@@ -79,19 +79,22 @@ Sub RunReplaceFunctions(control As IRibbonControl)
                         'update the replacement formula
                         repFormula = repFormula & Mid(c.Formula, repStart, m.FirstIndex + m.Length - repStart + 1)
                         repStart = m.FirstIndex + m.Length + 1
+                    ElseIf m.FirstIndex > repStart Then
+                        'move the replacement formula up to the next special formula
+                        '(only occurs when two special formulas are back to back)
+                        repFormula = repFormula & Mid(c.Formula, repStart, m.FirstIndex - repStart + 1)
+                        repStart = m.FirstIndex + 1
                     End If
                 Next
 
                 'append any text remaining after the last close paren
-                MsgBox Len(c.Formula)
-                MsgBox InStrRev(c.Formula, ")")
                 If InStrRev(c.Formula, ")") <> Len(c.Formula) Then
                     repFormula = repFormula & right(c.Formula, Len(c.Formula) - InStrRev(c.Formula, ")"))
                 End If
 
-                'check for any formula errors
+                'check for formula errors and input vs. output errors
                 Cells(LastR + 1, lastC + 1) = repFormula
-                If IsError(Cells(LastR + 1, lastC + 1)) Then
+                If IsError(Cells(LastR + 1, lastC + 1)) Or c.Value <> Cells(LastR + 1, lastC + 1).Value Then
                     repFormula = right(repFormula, Len(repFormula) - 1)
                     Cells(LastR + 1, lastC + 1) = repFormula
                     If IsError(Cells(LastR + 1, lastC + 1)) Then failure = True: failures = failures + 1

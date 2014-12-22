@@ -1,14 +1,27 @@
 Attribute VB_Name = "AddHyperlinks"
-'Blackman & Sloop Excel Add-In, v1.2 (5/15/14)
+'Blackman & Sloop Excel Add-In, v1.3 (12/18/14)
 
 Dim hyperlinking As Boolean
-Dim srcSheet, srcCell As String
+Dim src, dest As String
 
 Sub SetSource(control As IRibbonControl)
     On Error Resume Next
 
-    srcSheet = ActiveSheet.Name
-    srcCell = ActiveCell.Address(False, False)
+    'determine the last tickmark
+    nextTickmark = 1
+    For Each n In ActiveWorkbook.Names
+        If left(n.Name, 9) = "tickmark_" Then
+            thisTickmark = Val(Mid(n.Name, 10, Len(n.Name) - 10))
+            If thisTickmark >= nextTickmark Then
+                nextTickmark = thisTickmark + 1
+            End If
+        End If
+    Next n
+    src = "tickmark_" & nextTickmark & "a"
+    dest = "tickmark_" & nextTickmark & "b"
+
+    'create the new named range
+    ActiveCell.Name = src
 
     'Activate hyperlinking
     hyperlinking = True
@@ -18,20 +31,18 @@ Sub SetDestination()
     On Error Resume Next
 
     If hyperlinking Then
-        Dim destSheet, destCell As String
-        destSheet = ActiveSheet.Name
-        destCell = ActiveCell.Address(False, False)
-        'MsgBox srcSheet + "!" + srcCell + ", " + destSheet + "!" + destCell
+        'create the new named range
+        ActiveCell.Name = dest
 
         'Set the forward & reverse hyperlinks
-        Sheets(srcSheet).Range(srcCell).Hyperlinks.Add _
-            Anchor:=Sheets(srcSheet).Range(srcCell), _
+        Range(src).Hyperlinks.Add _
+            Anchor:=Range(src), _
             Address:="", _
-            SubAddress:="'" + destSheet + "'!" + destCell
-        Sheets(destSheet).Range(destCell).Hyperlinks.Add _
-            Anchor:=Sheets(destSheet).Range(destCell), _
+            SubAddress:=dest
+        Range(dest).Hyperlinks.Add _
+            Anchor:=Range(dest), _
             Address:="", _
-            SubAddress:="'" + srcSheet + "'!" + srcCell
+            SubAddress:=src
 
         'Turn off hyperlinking
         hyperlinking = False
@@ -42,6 +53,10 @@ Sub ClearLinks(control As IRibbonControl)
     On Error Resume Next
 
     'Delete all hyperlinks in selection (forward links only)
+    For Each h In Selection.Hyperlinks
+        MsgBox h.SubAddress
+        Range(h.SubAddress).Name.Delete
+    Next h
     Selection.Hyperlinks.Delete
 End Sub
 
