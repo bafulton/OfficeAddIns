@@ -1,10 +1,15 @@
 Attribute VB_Name = "QBTBClean"
-'Blackman & Sloop Excel Add-In, v1.1 (7/8/13)
+'Blackman & Sloop Excel Add-In, v1.2 (5/15/14)
 
 Option Base 1    ' Set default array subscripts to 1
 
 Sub CleanTheTB(control As IRibbonControl)
     On Error Resume Next
+
+    msg = MsgBox("Exclude $0 balances?", vbYesNo, "$0 Balances")
+
+    Application.DisplayAlerts = False
+    Application.ScreenUpdating = False
 
     'Find Debit, Credit, and Account columns and rows
     Dim MyAlphaArray
@@ -38,17 +43,17 @@ Sub CleanTheTB(control As IRibbonControl)
             MyAcctCol = "B"
         End If
     Next
-    
+
     'Split each row into the appropriate arrays
     MyRows = Application.CountA(ActiveSheet.Range(MyAcctCol & ":" & MyAcctCol))
-    
+
     Dim MyIndex As Integer
     MyIndex = MyRows + 2
     Dim AccountNumArray(1000) As Variant
     Dim AccountNameArray(1000) As Variant
     Dim AmountArray(1000) As Double
     Dim MyCnt As Integer
-    
+
     For MyCnt = 3 To MyIndex
         MyPos = InStr(1, Range(MyAcctCol & MyCnt).Value, " · ")
         If MyPos > 0 Then
@@ -62,10 +67,10 @@ Sub CleanTheTB(control As IRibbonControl)
                     NeedLoop = "False"
                 End If
             Loop
-            
+
             AccountNumArray(MyCnt) = SplitAccount(StringtoCheck, "Num")
             AccountNameArray(MyCnt) = SplitAccount(StringtoCheck, "Name")
-                    
+
             If Not (Range(MyDebitCol & MyCnt).Value = 0) Then
                 AmountArray(MyCnt) = Range(MyDebitCol & MyCnt).Value
             End If
@@ -74,7 +79,7 @@ Sub CleanTheTB(control As IRibbonControl)
             End If
         Else
             AccountNameArray(MyCnt) = Range(MyAcctCol & MyCnt).Value
-        
+
             If Not (Range(MyDebitCol & MyCnt).Value = 0) Then
                 AmountArray(MyCnt) = Range(MyDebitCol & MyCnt).Value
             End If
@@ -98,11 +103,20 @@ Sub CleanTheTB(control As IRibbonControl)
     Sheets.Add.Name = "Cleaned TB"
     Sheets("Cleaned TB").Select
     Range("A1").Select
+    Dim NextRow As Integer
+    NextRow = 1
     For MyCnt = 3 To MyIndex
-        Range("A" & (MyCnt - 2)).Value = AccountNumArray(MyCnt)
-        Range("B" & (MyCnt - 2)).Value = AccountNameArray(MyCnt)
-        Range("C" & (MyCnt - 2)).Value = AmountArray(MyCnt)
+        'skip $0 balances if instructed to do so
+        If Not (msg = vbYes And AmountArray(MyCnt) = 0) Then
+            Range("A" & NextRow).Value = AccountNumArray(MyCnt)
+            Range("B" & NextRow).Value = AccountNameArray(MyCnt)
+            Range("C" & NextRow).Value = AmountArray(MyCnt)
+            NextRow = NextRow + 1
+        End If
     Next MyCnt
+
+    Application.DisplayAlerts = True
+    Application.ScreenUpdating = True
 End Sub
 
 Private Function SplitAccount(TempAccount, WhatToReturn)

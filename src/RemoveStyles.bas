@@ -1,7 +1,9 @@
 Attribute VB_Name = "RemoveStyles"
-'Blackman & Sloop Excel Add-In, v1.1 (7/8/13)
+'Blackman & Sloop Excel Add-In, v1.2 (5/15/14)
 
 Sub RemoveTheStyles(control As IRibbonControl)
+    On Error Resume Next
+
     Dim s As Style, i As Long, c As Long
     On Error Resume Next
     If ActiveWorkbook.MultiUserEditing Then
@@ -15,7 +17,7 @@ Sub RemoveTheStyles(control As IRibbonControl)
             Exit Sub
         End If
     End If
-    c = ActiveWorkbook.Styles.Count
+    c = ActiveWorkbook.Styles.count
     Application.ScreenUpdating = False
     For i = c To 1 Step -1
         If i Mod 600 = 0 Then DoEvents
