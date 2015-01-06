@@ -9,6 +9,7 @@ Excel Add-In Ideas
  - add ability to benford to select a certain population to be copied over to a new tab (like double clicking an item in a pivot table)
  - update comparison functionality to highlight items where left vs. right counts are disparate, not just unique items (eg, 2 $3s on one side and 3 $3s on the other)?
  - add option to create a loan amortization schedule (work w/Rob Lewis)
+ - refactor code to use programmatic menus instead of XML menus?
 
  - Yahoo Finance Excel macro idea ("=price()", "=sector()", "=fullname()" functions)
  - Beneish M-Score? (needs to be less than -2.22)
