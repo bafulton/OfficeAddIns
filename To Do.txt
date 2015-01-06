@@ -1,0 +1,57 @@
+Excel Add-In Ideas
+ - can the add header function use ROUND(,-2) instead of what it's currently using?
+ - automerge function should un-merge previouly merged cells when clicked again
+ - should the add link function not change the font or font size or underline it?
+ - add "Center Across Cells" functionality? (vs. merge & center)
+
+ - when headers are rolled forward, can they detect it's a new year and remind users to update risk levels?
+ - add link function should allow you to double-click an already selected cell to indicate it should be the link target
+ - add ability to benford to select a certain population to be copied over to a new tab (like double clicking an item in a pivot table)
+ - update comparison functionality to highlight items where left vs. right counts are disparate, not just unique items (eg, 2 $3s on one side and 3 $3s on the other)?
+ - add option to create a loan amortization schedule (work w/Rob Lewis)
+
+ - Yahoo Finance Excel macro idea ("=price()", "=sector()", "=fullname()" functions)
+ - Beneish M-Score? (needs to be less than -2.22)
+ - rent smoothing functionality
+ - http://www.extendoffice.com/product/kutools-for-excel.html
+ - select cells randomly
+ - change all positives to negatives, vice versa, swap signs
+ - combine columns into one
+ - convert text to number, number to text
+ - change the case of letters
+ - trim leading & trailing whitespace, unnecessary inner spaces
+ - reverse selection
+ - sort items by color
+
+Other Ideas
+- Create Excel-based request system for logins, etc. (instead of emailing pracmgtadmin)
+- Announce time tracking spreadsheet (is it releasing the right hour amounts to Time Off? add sheet protection too)
+- Learn Excel regexs: http://msdn.microsoft.com/en-us/library/ms974570.aspx#scripting05_topic2
+- Time tracker based on the title of the window you have open?
+- System that detects when a new return's been started & informs the responsible party?
+
+v1.3 Changelog
+ - replace functions functionality no longer shows popup dialog
+ - fixed replace functions logic errors & added more error checking
+ - hyperlinks now reference named ranges, to remain independent of sheet changes (row/col add/rem)
+
+v1.2.2 Changelog
+ - redid materiality header calculations (rounding on PM & trivial)
+
+v1.2.1 Changelog
+ - fixed error in replace functions logic
+ - reorganized header in add header function (organization name on top)
+ - reworked materiality in add header function (changed calculation of PM & trivial, renamed threshold)
+ - added progress status to gap analysis and Benford test
+
+v1.2 Changelog
+ - added materiality calculations option to add header button
+ - added ability to define header width on header add (width of selection)
+ - added option to ignore $0 balances on QB TB clean
+ - added Benford test
+ - added ability to hyperlink across tabs
+ - added automerge functionality (merge, word wrap, text align, resets formatting)
+ - added gap analysis functionality
+ - added compare values functionality
+ - added ability to replace all nonstandard Excel formulas with their values
+ - added auto update functionality
