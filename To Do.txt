@@ -24,12 +24,6 @@ Excel Add-In Ideas
  - reverse selection
  - sort items by color
 
-Other Ideas
-- Create Excel-based request system for logins, etc. (instead of emailing pracmgtadmin)
-- Announce time tracking spreadsheet (is it releasing the right hour amounts to Time Off? add sheet protection too)
-- Learn Excel regexs: http://msdn.microsoft.com/en-us/library/ms974570.aspx#scripting05_topic2
-- Time tracker based on the title of the window you have open?
-- System that detects when a new return's been started & informs the responsible party?
 
 v1.3 Changelog
  - replace functions functionality no longer shows popup dialog
