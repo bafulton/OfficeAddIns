@@ -1,4 +1,10 @@
 Excel Add-In Ideas
+
+ - fix compare values error (see spreadsheet in errors folder for example of problem)
+ - remove hyperlinks is still showing popup window--annoying...
+ - remove hyperlinks removes all cell formatting (color/data type/borders/etc.)
+ - add hyperlinks changes cell formatting; should only change font color to blue
+
  - add support for experimental releases
  - add ability to sync audit calendar to Outlook
  - automerge function should un-merge previouly merged cells when clicked again
