@@ -1,0 +1,34 @@
+Excel Add-In Ideas
+
+ - fix compare values error (see spreadsheet in errors folder for example of problem)
+ - remove hyperlinks is still showing popup window--annoying...
+ - remove hyperlinks removes all cell formatting (color/data type/borders/etc.)
+ - add hyperlinks changes cell formatting; should only change font color to blue
+
+ - add support for experimental releases
+ - add ability to sync audit calendar to Outlook
+ - automerge function should un-merge previouly merged cells when clicked again
+ - should the add link function not change the font or font size or underline it?
+
+ - can the add header function use ROUND(,-2) instead of what it's currently using?
+ - add "Center Across Cells" functionality? (vs. merge & center)
+
+ - when headers are rolled forward, can they detect it's a new year and remind users to update risk levels?
+ - add link function should allow you to double-click an already selected cell to indicate it should be the link target
+ - add ability to benford to select a certain population to be copied over to a new tab (like double clicking an item in a pivot table)
+ - update comparison functionality to highlight items where left vs. right counts are disparate, not just unique items (eg, 2 $3s on one side and 3 $3s on the other)?
+ - add option to create a loan amortization schedule (work w/Rob Lewis)
+ - refactor code to use programmatic menus instead of XML menus?
+
+ - Yahoo Finance Excel macro idea ("=price()", "=sector()", "=fullname()" functions)
+ - Beneish M-Score? (needs to be less than -2.22)
+ - rent smoothing functionality
+ - http://www.extendoffice.com/product/kutools-for-excel.html
+ - select cells randomly
+ - change all positives to negatives, vice versa, swap signs
+ - combine columns into one
+ - convert text to number, number to text
+ - change the case of letters
+ - trim leading & trailing whitespace, unnecessary inner spaces
+ - reverse selection
+ - sort items by color
