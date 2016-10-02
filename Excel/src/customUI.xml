@@ -1,0 +1,30 @@
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+	<ribbon>
+		<tabs>
+			<tab idMso="TabInsert">
+				<group id="customGroup" label="Blackman Sloop" insertAfterMso="GroupEditing">
+					<button id="btnMergeSelection" label="Auto Merge" size="large" imageMso="TextEffectTracking" onAction="RunAutomerge" screentip="Automerge Selection" supertip="Automatically merges and formats the selected cells."/>
+					<button id="btnAddHeader" size="normal" imageMso="SlideMasterInsertLayout" onAction="AddAHeader" screentip="Add WP Header" supertip="Adds a header to the top of the workpaper."/>
+					<button id="btnAddHyperlink" size="normal" imageMso="FileLinksToFiles" onAction="SetSource" screentip="Add Hyperlink" supertip="Adds a hyperlink between the selected cell and the next selected cell."/>
+					<button id="btnClearHyperlinks" size="normal" imageMso="TableUnlinkExternalData" onAction="ClearLinks" screentip="Clear Hyperlinks" supertip="Clears all hyperlinks in the selected cells."/>
+
+					<separator id="separator" />
+
+					<menu id="Analysis" label="Analysis" imageMso="FunctionWizard">
+						<button id="btnBenfordTest" label="Benford Test" imageMso="ChartInsert" onAction="RunBenfordTest" screentip="Benford Test" supertip="Performs a Benford test on the selected data, outputting the results to a new tab."/>
+						<button id="btnGapAnalysis" label="Gap Analysis" imageMso="Numbering" onAction="RunGapAnalysis" screentip="Gap Analysis" supertip="Performs a gap analysis on the selected data."/>
+						<button id="btnCompare" label="Compare Values" imageMso="SetPertWeights" onAction="RunComparison" screentip="Compare Values" supertip="Compares the values in two columns, highlighting unique items."/>
+					</menu>
+
+					<menu id="Utilities" label="Utilities" imageMso="ControlToolboxOutlook">
+						<button id="btnRemStyles" label="Remove Styles" imageMso="CellStylesGallery" onAction="RemoveTheStyles" screentip="Remove Styles" supertip="Removes all but the default set of styles, any styles in use other than those will revert to using the Normal style."/>
+						<button id="btnQBTBParse" label="QB TB Clean" imageMso="SharePointListsWorkOffline" onAction="CleanTheTB" screentip="QB TB Clean" supertip="Prepares a trial balance exported from QuickBooks to be imported into Engagement."/>
+						<button id="btnReplaceFunctions" label="Replace Functions" imageMso="PivotRemoveField" onAction="RunReplaceFunctions" screentip="Replace Functions" supertip="Replaces all non-standard functions in the selection with their values."/>
+					</menu>
+
+
+				</group>
+			</tab>
+		</tabs>
+	</ribbon>
+</customUI>
