@@ -1,12 +1,9 @@
-'Blackman & Sloop Excel Add-In, v1.2 (5/15/14)
+'Blackman & Sloop Excel Add-In, v1.4 (10/2/16)
 
 Private WithEvents App As Application
 
 Private Sub Workbook_Open()
     Set App = Application
-    
-    'Check for any updates
-    CheckUpdate
 End Sub
 
 Private Sub App_SheetSelectionChange(ByVal Sh As Object, ByVal Target As Range)
