@@ -9,7 +9,7 @@ Sub RunGapAnalysis(control As IRibbonControl)
     Dim src As String
     src = "'" + ActiveSheet.Name + "'"
 
-    'create a new worksheet
+    'Create a new worksheet
     Dim Sh As Worksheet, flg As Boolean
     For Each Sh In Worksheets
         If Sh.Name = "Gap Analysis" Then flg = True: Exit For
@@ -34,7 +34,7 @@ Sub RunGapAnalysis(control As IRibbonControl)
     Range("A1").Font.Bold = True
     Range("A1").Borders(xlEdgeBottom).LineStyle = xlContinuous
 
-    'copy over the data
+    'Copy over the data
     Dim i As Integer
     i = 2
     count = 0: progress = 0: totalCount = WorksheetFunction.CountA(data)
@@ -54,7 +54,7 @@ Sub RunGapAnalysis(control As IRibbonControl)
     Next
     Application.StatusBar = "Finalizing..."
 
-    'set the data as a table & sort
+    'Set the data as a table & sort
     ActiveSheet.ListObjects.Add(xlSrcRange, Range("A1:A" & i - 1), , xlYes).Name = "GapData"
     With ActiveSheet.ListObjects("GapData")
         .TableStyle = wdTableFormatNone
@@ -62,7 +62,7 @@ Sub RunGapAnalysis(control As IRibbonControl)
         .Sort.Apply
     End With
 
-    'add highlights
+    'Add highlights
     Dim previous As Integer
     previous = Range("A2").Value - 1
     For Each c In Range("GapData")
@@ -73,4 +73,5 @@ Sub RunGapAnalysis(control As IRibbonControl)
     Application.StatusBar = False
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True
+
 End Sub

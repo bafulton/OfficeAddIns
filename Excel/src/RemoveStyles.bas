@@ -5,7 +5,7 @@ Sub RemoveTheStyles(control As IRibbonControl)
     On Error Resume Next
 
     Dim s As Style, i As Long, c As Long
-    On Error Resume Next
+
     If ActiveWorkbook.MultiUserEditing Then
         If MsgBox("You cannot remove Styles in a Shared workbook." & vbCr & vbCr & _
                   "Do you want to unshare the workbook?", vbYesNo + vbInformation) = vbYes Then
@@ -17,6 +17,7 @@ Sub RemoveTheStyles(control As IRibbonControl)
             Exit Sub
         End If
     End If
+
     c = ActiveWorkbook.Styles.count
     Application.ScreenUpdating = False
     For i = c To 1 Step -1
@@ -31,6 +32,8 @@ Sub RemoveTheStyles(control As IRibbonControl)
             End If
         End If
     Next
+    
     Application.ScreenUpdating = True
     Application.StatusBar = False
+
 End Sub

@@ -68,4 +68,5 @@ Sub RunComparison(control As IRibbonControl)
     Application.ScreenUpdating = True
 
     MsgBox count & " unique values identified.", Title:="Compare Complete"
+
 End Sub

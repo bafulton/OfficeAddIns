@@ -113,4 +113,5 @@ Sub RunReplaceFunctions(control As IRibbonControl)
     Application.StatusBar = False
 
     If failures > 0 Then MsgBox failures & " formulas could not be replaced", vbCritical, "Formula Error"
+
 End Sub

@@ -21,8 +21,6 @@
 						<button id="btnQBTBParse" label="QB TB Clean" imageMso="SharePointListsWorkOffline" onAction="CleanTheTB" screentip="QB TB Clean" supertip="Prepares a trial balance exported from QuickBooks to be imported into Engagement."/>
 						<button id="btnReplaceFunctions" label="Replace Functions" imageMso="PivotRemoveField" onAction="RunReplaceFunctions" screentip="Replace Functions" supertip="Replaces all non-standard functions in the selection with their values."/>
 					</menu>
-
-
 				</group>
 			</tab>
 		</tabs>

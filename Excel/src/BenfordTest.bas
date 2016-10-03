@@ -205,4 +205,5 @@ Sub RunBenfordTest(control As IRibbonControl)
     Application.StatusBar = False
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True
+
 End Sub
