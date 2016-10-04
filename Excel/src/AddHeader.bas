@@ -22,7 +22,7 @@ Sub AddAHeader(control As IRibbonControl)
     'insert the header rows & set to default
     Range("A1:A9").EntireRow.Insert
     Range(Cells(1, 1), Cells(9, cols)).ClearFormats
-    Range(Cells(1, 1), Cells(9, cols)).Font.Name = Range("A10").Font.Name
+    Range(Cells(1, 1), Cells(9, cols)).Font.name = Range("A10").Font.name
     Range(Cells(1, 1), Cells(9, cols)).Font.Size = Range("A10").Font.Size
 
 '---NAME/INDEX/DATE------------------------------------------------------------------
@@ -96,7 +96,7 @@ Sub AddAHeader(control As IRibbonControl)
         Cells(2, cols) = "=IF(" & Cells(1, cols).Address & "=""Low"",0.2,IF(" & Cells(1, cols).Address & "=""Moderate"",0.15,0.1))"
         Cells(3, cols - 1) = "Scope $:"
         Cells(3, cols) = "=" & Cells(2, cols - 2).Address & "*" & Cells(2, cols).Address
-        Cells(3, cols).Name = "Threshold"
+        Cells(3, cols).name = "Threshold"
         'formatting
         Range(Cells(1, cols - 1), Cells(3, cols - 1)).HorizontalAlignment = xlRight
         Range(Cells(1, cols), Cells(2, cols)).HorizontalAlignment = xlCenter

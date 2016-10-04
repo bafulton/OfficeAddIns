@@ -23,7 +23,7 @@ Sub RemoveTheStyles(control As IRibbonControl)
     For i = c To 1 Step -1
         If i Mod 600 = 0 Then DoEvents
         Set s = ActiveWorkbook.Styles(i)
-        Application.StatusBar = "Deleting " & c - i + 1 & " of " & c & " " & s.Name
+        Application.StatusBar = "Deleting " & c - i + 1 & " of " & c & " " & s.name
         If Not s.BuiltIn Then
             s.Delete
             If Err.Description = "You cannot use this command on a protected sheet. To use this command, you must first unprotect the sheet (Review tab, Changes group, Unprotect Sheet button). You may be prompted for a password." Then

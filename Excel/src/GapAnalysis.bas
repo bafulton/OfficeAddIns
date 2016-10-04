@@ -7,12 +7,12 @@ Sub RunGapAnalysis(control As IRibbonControl)
     Dim data As Range
     Set data = Selection
     Dim src As String
-    src = "'" + ActiveSheet.Name + "'"
+    src = "'" + ActiveSheet.name + "'"
 
     'Create a new worksheet
     Dim Sh As Worksheet, flg As Boolean
     For Each Sh In Worksheets
-        If Sh.Name = "Gap Analysis" Then flg = True: Exit For
+        If Sh.name = "Gap Analysis" Then flg = True: Exit For
     Next
     If flg = True Then
         msg = MsgBox("Replace current Gap Analysis tab?", vbYesNo, "Replace Tab")
@@ -27,7 +27,7 @@ Sub RunGapAnalysis(control As IRibbonControl)
     Application.DisplayAlerts = False
     Application.ScreenUpdating = False
 
-    Sheets.Add.Name = "Gap Analysis"
+    Sheets.Add.name = "Gap Analysis"
     Sheets("Gap Analysis").Select
     Range("A1") = "Values"
     Range("A1").HorizontalAlignment = xlLeft
@@ -55,7 +55,7 @@ Sub RunGapAnalysis(control As IRibbonControl)
     Application.StatusBar = "Finalizing..."
 
     'Set the data as a table & sort
-    ActiveSheet.ListObjects.Add(xlSrcRange, Range("A1:A" & i - 1), , xlYes).Name = "GapData"
+    ActiveSheet.ListObjects.Add(xlSrcRange, Range("A1:A" & i - 1), , xlYes).name = "GapData"
     With ActiveSheet.ListObjects("GapData")
         .TableStyle = wdTableFormatNone
         .Sort.SortFields.Add Key:=Range("GapData[Values]"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal

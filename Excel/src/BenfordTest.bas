@@ -7,12 +7,12 @@ Sub RunBenfordTest(control As IRibbonControl)
     Dim data As Range
     Set data = Selection
     Dim src As String
-    src = "'" + ActiveSheet.Name + "'"
+    src = "'" + ActiveSheet.name + "'"
 
     'create a new worksheet
     Dim Sh As Worksheet, flg As Boolean
     For Each Sh In Worksheets
-        If Sh.Name = "Benford Test" Then flg = True: Exit For
+        If Sh.name = "Benford Test" Then flg = True: Exit For
     Next
     If flg = True Then
         msg = MsgBox("Replace current Benford Test tab?", vbYesNo, "Replace Tab")
@@ -27,7 +27,7 @@ Sub RunBenfordTest(control As IRibbonControl)
     Application.DisplayAlerts = False
     Application.ScreenUpdating = False
 
-    Sheets.Add.Name = "Benford Test"
+    Sheets.Add.name = "Benford Test"
     Sheets("Benford Test").Select
 
     'set up the new sheet
@@ -78,15 +78,15 @@ Sub RunBenfordTest(control As IRibbonControl)
     Application.StatusBar = "Finalizing..."
 
     Range("A3:D" & i - 1).Interior.Color = xlNone
-    Range("A3:A" & i - 1).Name = "Data"
+    Range("A3:A" & i - 1).name = "Data"
     Range("B3:B" & i - 1) = "=IFERROR(VALUE(LEFT(D3,1)),"""")"
-    Range("B3:B" & i - 1).Name = "Digit1"
+    Range("B3:B" & i - 1).name = "Digit1"
     Range("C3:C" & i - 1) = "=IFERROR(VALUE(RIGHT(D3,1)),"""")"
-    Range("C3:C" & i - 1).Name = "Digit2"
+    Range("C3:C" & i - 1).name = "Digit2"
     Range("D3:D" & i - 1) = "=VALUE(LEFT(ABS(A3*10000),2))"
-    Range("D3:D" & i - 1).Name = "Digit1and2"
+    Range("D3:D" & i - 1).name = "Digit1and2"
     'set the data as a table & sort
-    ActiveSheet.ListObjects.Add(xlSrcRange, Range("A2:D" & i - 1), , xlYes).Name = "BenfordData"
+    ActiveSheet.ListObjects.Add(xlSrcRange, Range("A2:D" & i - 1), , xlYes).name = "BenfordData"
     ActiveSheet.ListObjects("BenfordData").TableStyle = wdTableFormatNone
     Columns("A").ColumnWidth = 12.5
     Columns("B").ColumnWidth = 10

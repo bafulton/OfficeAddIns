@@ -10,8 +10,8 @@ Sub SetSource(control As IRibbonControl)
     'determine the last tickmark
     nextTickmark = 1
     For Each n In ActiveWorkbook.Names
-        If left(n.Name, 9) = "tickmark_" Then
-            thisTickmark = Val(Mid(n.Name, 10, Len(n.Name) - 10))
+        If left(n.name, 9) = "tickmark_" Then
+            thisTickmark = Val(Mid(n.name, 10, Len(n.name) - 10))
             If thisTickmark >= nextTickmark Then
                 nextTickmark = thisTickmark + 1
             End If
@@ -21,7 +21,7 @@ Sub SetSource(control As IRibbonControl)
     dest = "tickmark_" & nextTickmark & "b"
 
     'create the new named range
-    ActiveCell.Name = src
+    ActiveCell.name = src
 
     'Activate hyperlinking
     hyperlinking = True
@@ -33,7 +33,7 @@ Sub SetDestination()
 
     If hyperlinking Then
         'create the new named range
-        ActiveCell.Name = dest
+        ActiveCell.name = dest
 
         'Set the forward & reverse hyperlinks
         Range(src).Hyperlinks.Add _
@@ -66,7 +66,7 @@ Sub ClearLinks(control As IRibbonControl)
 
     For Each h In Selection.Hyperlinks
         'Delete the hyperlink names
-        Range(h.SubAddress).Name.Delete
+        Range(h.SubAddress).name.Delete
     Next h
     'Delete all hyperlinks in selection
     Selection.Hyperlinks.Delete
