@@ -1,6 +1,7 @@
 v1.4.0 Changelog
 - Bugfix: Fixed hang on load of spreadsheet.
 - Bugfix: Eliminated annoying popup when removing hyperlinks.
+- Added: Support for QB Online TB clean. Also made the cleaned TB easier to read.
 - Added: Add hyperlinks now bolds the text and makes the whole cell clickable.
 - Added: Automerge now unmerges the cells if clicked again.
 - Added: Trivial materiality now calculated properly.

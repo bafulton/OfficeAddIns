@@ -46,72 +46,81 @@ Sub CleanTheTB(control As IRibbonControl)
     QBOnline = True
     'Search the first ten rows of accounts for a '·' character
     For Each cell In Range(Cells(startRow, accountCol), Cells(startRow + 10, accountCol))
-        If InStr(Cells(startRow, accountCol).Value, "·") <> 0 Then
+        If InStr(cell.Value, "·") <> 0 Then
             QBOnline = False
             Exit For
         End If
     Next cell
 
+    'Debug message
     'MsgBox "startRow: " & startRow & "endRow: " & endRow & ", accountCol: " & accountCol & ", debitCol: " & debitCol & ", creditCol: " & creditCol & ", QBOnline: " & QBOnline
 
+    'Insert the new columns
+    Range(Cells(1, creditCol + 2).Address, Cells(1, creditCol + 4).Address).EntireColumn.Insert
+    'Add & format the header
+    Cells(startRow - 1, creditCol + 2).Value = "Account"
+    Cells(startRow - 1, creditCol + 3).Value = "Name"
+    Cells(startRow - 1, creditCol + 4).Value = "Balance"
+    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).HorizontalAlignment = xlCenter
+    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).Font.Bold = True
+    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).Interior.Color = RGB(217, 217, 217)
+    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).Borders(xlEdgeBottom).LineStyle = xlContinuous
+
+    curRow = startRow
     For i = startRow To endRow
-        'If debit or credit not $0
-            'Split the account number and description
-            'Add the debit/credit
+        If (Cells(i, debitCol).Value > 0 Xor Cells(i, creditCol).Value > 0) Or _
+            (msg = vbNo And (IsEmpty(Cells(i, debitCol).Value) Xor IsEmpty(Cells(i, creditCol).Value))) Then
+
+            'Split and add the account number and description
+            splits = Split(Cells(i, accountCol).Value, ":")
+            rightmost = splits(UBound(splits))
+
+            Dim account As Integer
+            Dim name As String
+            If QBOnline = True Then
+                'Account number is at beginning, name is after last colon
+                If IsNumeric(Split(splits(0))(0)) = True Then
+                    account = Split(splits(0))(0)
+                End If
+
+                If UBound(splits) = 0 And IsNumeric(Split(splits(0))(0)) = True Then
+                    name = right(rightmost, Len(rightmost) - InStr(rightmost, " "))
+                Else
+                    name = rightmost
+                End If
+            
+            Else
+                'Account number and name are after the last colon (split on the '·')
+                temp = Split(rightmost, " · ")
+                If IsNumeric(temp(0)) = True Then
+                    account = temp(0)
+                    name = temp(1)
+                Else
+                    name = temp(0)
+                End If
+            End If
+
+            'Add the values
+            If account <> 0 Then
+                Cells(curRow, creditCol + 2) = account
+            Else
+                'Highlight missing account numbers
+                Cells(curRow, creditCol + 2).Interior.ColorIndex = 27
+            End If
+            Cells(curRow, creditCol + 3) = name
+            Cells(curRow, creditCol + 4) = Cells(i, debitCol).Value - Cells(i, creditCol).Value
+
+            curRow = curRow + 1
+        End If
     Next i
 
-
-    ' If regular QB, then just split everything after the last colon on the weird dot thing
-    ' If QB Online, then the account is at the front, and the name is everything after the last colon
+    'Format the values
+    Range(Cells(startRow, creditCol + 2), Cells(curRow, creditCol + 2)).HorizontalAlignment = xlCenter
+    Range(Cells(startRow, creditCol + 4), Cells(curRow, creditCol + 4)).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
+    Range(Cells(1, creditCol + 2), Cells(1, creditCol + 4)).Columns.EntireColumn.AutoFit
 
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True
+
 End Sub
 
-Private Function SplitAccount(TempAccount, WhatToReturn)
-    If InStr(1, TempAccount, ":") > 0 Then
-        MyPos = InStr(1, TempAccount, ":")
-        MasterAccount = Mid(TempAccount, 1, (MyPos - 1))
-        SubAccount = Mid(TempAccount, (MyPos + 1))
-
-        If InStr(1, MasterAccount, " · ") > 0 Then
-            MyPos = InStr(1, MasterAccount, " · ")
-            MasterAccountNumber = Mid(MasterAccount, 1, (MyPos - 1))
-            MasterAccountName = Mid(MasterAccount, (MyPos + 3))
-        Else
-            MasterAccountName = MasterAccount
-        End If
-
-        If InStr(1, SubAccount, " · ") > 0 Then
-            MyPos = InStr(1, SubAccount, " · ")
-            SubAccountNumber = Mid(SubAccount, 1, (MyPos - 1))
-            subaccountname = Mid(SubAccount, (MyPos + 3))
-        Else
-            subaccountname = SubAccount
-            SubAccountNumber = ""
-        End If
-
-        ProcessedName = MasterAccountName & ":" & subaccountname
-        ProcessedNumber = SubAccountNumber
-    Else
-        SubAccount = TempAccount
-        If InStr(1, SubAccount, " · ") > 0 Then
-            MyPos = InStr(1, SubAccount, " · ")
-            SubAccountNumber = Mid(SubAccount, 1, (MyPos - 1))
-            subaccountname = Mid(SubAccount, (MyPos + 3))
-        Else
-            subaccountname = SubAccount
-            SubAccountNumber = ""
-        End If
-
-        ProcessedName = subaccountname
-        ProcessedNumber = SubAccountNumber
-    End If
-
-    If WhatToReturn = "Name" Then
-        SplitAccount = ProcessedName
-    ElseIf WhatToReturn = "Num" Then
-        SplitAccount = ProcessedNumber
-    End If
-
-End Function

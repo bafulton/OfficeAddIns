@@ -1,10 +1,10 @@
 B&S Add-Ins Thoughts
 
- - finish adding support for QB Online TB clean (see email & attachment in errors folder)
+ - fix Replace Functions error--unsure what's going on
  - fix compare values error (see spreadsheet in errors folder for example of problem)
  - when headers are rolled forward, can they detect it's a new year and remind users to update risk levels?
  - add link function should allow you to double-click an already selected cell to indicate it should be the link target
- - Fix Word template
+ - fix Word template
 
  - remove hyperlinks removes all cell formatting (color/data type/borders/etc.)
  - add "Center Across Cells" functionality? (vs. merge & center)
@@ -16,8 +16,8 @@ B&S Add-Ins Thoughts
 
  - fix =LEN() #VALUE formula error in add header function (see errors folder) (tried to fix--LEN is returning error, but no idea why and Google is no help)
 
- - Yahoo Finance Excel macro idea ("=price()", "=sector()", "=fullname()" functions)
- - Beneish M-Score? (needs to be less than -2.22)
+ - yahoo Finance Excel macro idea ("=price()", "=sector()", "=fullname()" functions)
+ - beneish M-Score? (needs to be less than -2.22)
  - http://www.extendoffice.com/product/kutools-for-excel.html
  - change all positives to negatives, vice versa, swap signs
  - combine columns into one
