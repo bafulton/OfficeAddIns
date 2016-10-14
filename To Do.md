@@ -1,9 +1,10 @@
 B&S Add-Ins Thoughts
 
  - fix Replace Functions error--unsure what's going on
+ - in fact, check all existing functions to ensure they still work
  - fix compare values error (see spreadsheet in errors folder for example of problem)
- - when headers are rolled forward, can they detect it's a new year and remind users to update risk levels?
  - add link function should allow you to double-click an already selected cell to indicate it should be the link target
+ - when headers are rolled forward, can they detect it's a new year and remind users to update risk levels?
  - fix Word template
 
  - remove hyperlinks removes all cell formatting (color/data type/borders/etc.)
