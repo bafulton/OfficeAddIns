@@ -37,36 +37,29 @@ Sub RunComparison(control As IRibbonControl)
     Dim count As Integer
     count = 0
     Dim r As Range
-    'i = 1: totalCount = left.Cells.count + right.Cells.count
     For Each c In left.Cells
-        'Application.StatusBar = "Comparing value " & i & " of " & totalCount
-        'i = i + 1
-
         If c.Value <> "" Then
-            Set r = right.Find(What:=c.Value, LookIn:=xlValues, LookAt:=xlWhole)
+            Set r = right.Find(What:=c.Value, LookIn:=xlFormulas, LookAt:=xlWhole)
             If r Is Nothing Then
                 c.Interior.Color = rgbYellow
                 count = count + 1
             End If
         End If
-    Next
+    Next c
     For Each c In right.Cells
-        'Application.StatusBar = "Comparing value " & i & " of " & totalCount
-        'i = i + 1
-
         If c.Value <> "" Then
-            Set r = left.Find(What:=c.Value, LookIn:=xlValues, LookAt:=xlWhole)
+            Set r = left.Find(What:=c.Value, LookIn:=xlFormulas, LookAt:=xlWhole)
             If r Is Nothing Then
                 c.Interior.Color = rgbYellow
                 count = count + 1
             End If
         End If
-    Next
+    Next c
 
     Application.StatusBar = False
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True
 
-    MsgBox count & " unique values identified.", Title:="Compare Complete"
+    MsgBox count & " unique values identified. See yellow highlights.", Title:="Compare Complete"
 
 End Sub
