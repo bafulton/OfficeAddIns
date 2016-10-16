@@ -58,13 +58,13 @@ Sub CleanTheTB(control As IRibbonControl)
     'Insert the new columns
     Range(Cells(1, creditCol + 2).Address, Cells(1, creditCol + 4).Address).EntireColumn.Insert
     'Add & format the header
-    Cells(startRow - 1, creditCol + 2).Value = "Account"
-    Cells(startRow - 1, creditCol + 3).Value = "Name"
-    Cells(startRow - 1, creditCol + 4).Value = "Balance"
-    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).HorizontalAlignment = xlCenter
-    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).Font.Bold = True
-    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).Interior.Color = RGB(217, 217, 217)
-    Range(Cells(startRow - 1, creditCol + 2), Cells(startRow - 1, creditCol + 4)).Borders(xlEdgeBottom).LineStyle = xlContinuous
+    Cells(startRow - 2, creditCol + 2).Value = "Account"
+    Cells(startRow - 2, creditCol + 3).Value = "Name"
+    Cells(startRow - 2, creditCol + 4).Value = "Balance"
+    Range(Cells(startRow - 2, creditCol + 2), Cells(startRow - 2, creditCol + 4)).HorizontalAlignment = xlCenter
+    Range(Cells(startRow - 2, creditCol + 2), Cells(startRow - 2, creditCol + 4)).Font.Bold = True
+    Range(Cells(startRow - 2, creditCol + 2), Cells(startRow - 2, creditCol + 4)).Interior.Color = RGB(217, 217, 217)
+    Range(Cells(startRow - 2, creditCol + 2), Cells(startRow - 2, creditCol + 4)).Borders(xlEdgeBottom).LineStyle = xlContinuous
 
     curRow = startRow
     For i = startRow To endRow
