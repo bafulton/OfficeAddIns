@@ -1,5 +1,5 @@
 Attribute VB_Name = "FunctionReplace"
-'Blackman & Sloop Excel Add-In, v1.3 (12/17/14)
+'Blackman & Sloop Excel Add-In, v1.4 (10/16/16)
 
 Sub RunReplaceFunctions(control As IRibbonControl)
     On Error Resume Next
@@ -25,93 +25,41 @@ Sub RunReplaceFunctions(control As IRibbonControl)
     Set sel = Selection
     Set max = Range(Cells(1, 1), Cells(LastR, lastC))
     Set inter = Intersect(sel, max)
+    
+    'warn if selection is large
     If inter.Cells.count > 100 Then
         msg = MsgBox("This may take some time. Continue?", vbYesNo, "Warning")
         If msg = vbNo Then Exit Sub
     End If
 
-    'loop through the selection and parse formulas
+    'disable updating (saves time)
     Application.DisplayAlerts = False
     Application.ScreenUpdating = False
-    Dim re As New RegExp
-    Dim matches As MatchCollection
-    Dim repLevel, repStart, repFormula As String
-    With re
-        .Pattern = "([a-z]+\()|(\))|([""][.+|""][""])"
-        .Global = True
-        .IgnoreCase = True
-    End With
-    failure = False: failures = 0
-    i = 1
+    
+    'loop through the selection and parse formulas
+    curFormula = c.Formula
     For Each c In inter.Cells
-        failure = False
-        Application.StatusBar = "Replacing formula " & i & " of " & inter.Cells.count
-        If c.Formula <> "" Then
-            'check if the cell contains formulas
-            If left(c.Formula, 1) = "=" And re.Test(c.Formula) Then
-                'get the collection of functions in the cell
-                Set matches = re.Execute(c.Formula)
-                repLevel = -999: repStart = 2: repFormula = "="
-
-                For Each m In matches
-                    If m = ")" Then
-                        repLevel = repLevel - 1
-
-                        If repLevel = 0 Then
-                            'copy nonstandard formula into a blank cell
-                            Cells(LastR + 1, lastC + 1) = "=" & Mid(c.Formula, repStart, m.FirstIndex + m.Length - repStart + 1)
-                            repFormula = repFormula & Cells(LastR + 1, lastC + 1)
-                            Cells(LastR + 1, lastC + 1).Delete
-                            repStart = m.FirstIndex + m.Length + 1
-
-                            repLevel = -999
+        If left(curFormula, 1) = "=" Then
+            For Each f In repFormulas
+                Do Until InStr(UCase(curFormula), f) = 0
+                    curLevel = 1
+                    For i = InStr(UCase(curFormula), f) + Len(f) To Len(curFormula)
+                        If Mid(curFormula, i, 1) = "(" Then
+                            curLevel = curLevel + 1
+                        ElseIf Mid(curFormula, i, 1) = ")" Then
+                            curLevel = curLevel - 1
                         End If
-                    ElseIf left(m, 1) <> """" Then
-                        repLevel = repLevel + 1
-
-                        If (UBound(Filter(repFormulas, UCase(m))) > -1) Then
-                            'start of nonstandard formula
-                            If repLevel < 0 Then repLevel = 1
+                        If curLevel = 0 Then
+                            MsgBox "happy"
                         End If
-                    End If
-                    
-                    If repLevel < 0 Then
-                        'update the replacement formula
-                        repFormula = repFormula & Mid(c.Formula, repStart, m.FirstIndex + m.Length - repStart + 1)
-                        repStart = m.FirstIndex + m.Length + 1
-                    ElseIf m.FirstIndex > repStart Then
-                        'move the replacement formula up to the next special formula
-                        '(only occurs when two special formulas are back to back)
-                        repFormula = repFormula & Mid(c.Formula, repStart, m.FirstIndex - repStart + 1)
-                        repStart = m.FirstIndex + 1
-                    End If
-                Next
-
-                'append any text remaining after the last close paren
-                If InStrRev(c.Formula, ")") <> Len(c.Formula) Then
-                    repFormula = repFormula & right(c.Formula, Len(c.Formula) - InStrRev(c.Formula, ")"))
-                End If
-
-                'check for formula errors and input vs. output errors
-                Cells(LastR + 1, lastC + 1) = repFormula
-                If IsError(Cells(LastR + 1, lastC + 1)) Or c.Value <> Cells(LastR + 1, lastC + 1).Value Then
-                    repFormula = right(repFormula, Len(repFormula) - 1)
-                    Cells(LastR + 1, lastC + 1) = repFormula
-                    If IsError(Cells(LastR + 1, lastC + 1)) Then failure = True: failures = failures + 1
-                End If
-                Cells(LastR + 1, lastC + 1).Delete
-
-                'copy over the new formula
-                If Not failure Then Range(c.Address) = repFormula
-            End If
+                    Next i
+                Loop
+            Next f
         End If
-
-        i = i + 1
     Next
+
+    're-enable updating
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True
-    Application.StatusBar = False
-
-    If failures > 0 Then MsgBox failures & " formulas could not be replaced", vbCritical, "Formula Error"
-
 End Sub
+
