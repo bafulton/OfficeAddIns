@@ -2,7 +2,6 @@ B&S Add-Ins Thoughts
 
  - fix Replace Functions error--unsure what's going on
  - in fact, check all existing functions to ensure they still work
- - fix Word template
 
  - remove hyperlinks removes all cell formatting (color/data type/borders/etc.)
  - add "Center Across Cells" functionality? (vs. merge & center)
@@ -11,8 +10,6 @@ B&S Add-Ins Thoughts
  - update comparison functionality to highlight items where left vs. right counts are disparate, not just unique items (eg, 2 $3s on one side and 3 $3s on the other)?
  - refactor code to use programmatic menus instead of XML menus?
  - feature to highlight a random sample of the selected cells
-
- - fix =LEN() #VALUE formula error in add header function (see errors folder) (tried to fix--LEN is returning error, but no idea why and Google is no help)
 
  - yahoo Finance Excel macro idea ("=price()", "=sector()", "=fullname()" functions)
  - beneish M-Score? (needs to be less than -2.22)
@@ -28,3 +25,4 @@ B&S Add-Ins Thoughts
 Unsolvable:
  - add link function should allow you to double-click an already selected cell to indicate it should be the link target
  - when headers are rolled forward, can they detect it's a new year and remind users to update risk levels?
+ - fix =LEN() #VALUE formula error in add header function (see errors folder) (tried to fix--LEN is returning error, but no idea why and Google is no help)
