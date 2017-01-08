@@ -12,7 +12,8 @@ Sub RunReplaceFunctions(control As IRibbonControl)
         "FIRMPHONE(", "FIRMFAX(", "FIRMURL(", "CY(", "PY(", "CYBDATE(", "CYEDATE(", "CPBDATE(", "CPEDATE(", _
         "PYEDATE(", "PPBDATE(", "PPEDATE(", "PERIODSQ(", "PJNAME(", "BINDERID(", "BINDERDESC(", "BINDERDELIVDT(", _
         "BINDERTYPE(", "BINDERCHRGCODE(", "BINDERLEAD(", "BINDERDATEOFREPORT(", "BINDERREPORTRELEASEDATE(", _
-        "WPNAME(", "WPINDEX(", "ADIFF(", "AORAND(", "APDIFF(", "DDIFF(", "PDIFF(", "XFOOT(", "TBLINK(")
+        "WPNAME(", "WPINDEX(", "ADIFF(", "AORAND(", "APDIFF(", "DDIFF(", "PDIFF(", "XFOOT(", "TBLINK(" _
+    )
 
     'limit the selection by the end row & column
     If WorksheetFunction.CountA(Cells) > 0 Then
@@ -27,7 +28,7 @@ Sub RunReplaceFunctions(control As IRibbonControl)
     Set inter = Intersect(sel, max)
     
     'warn if selection is large
-    If inter.Cells.count > 100 Then
+    If inter.Cells.count > 1000 Then
         msg = MsgBox("This may take some time. Continue?", vbYesNo, "Warning")
         If msg = vbNo Then Exit Sub
     End If
@@ -37,24 +38,45 @@ Sub RunReplaceFunctions(control As IRibbonControl)
     Application.ScreenUpdating = False
     
     'loop through the selection and parse formulas
-    curFormula = c.Formula
     For Each c In inter.Cells
+        curFormula = c.Formula
+        
         If left(curFormula, 1) = "=" Then
             For Each f In repFormulas
                 Do Until InStr(UCase(curFormula), f) = 0
+                    
+                    'search for the end of the ProFX formula
+                    startLoc = InStr(UCase(curFormula), f)
                     curLevel = 1
-                    For i = InStr(UCase(curFormula), f) + Len(f) To Len(curFormula)
+                    For i = startLoc + Len(f) To Len(curFormula)
                         If Mid(curFormula, i, 1) = "(" Then
                             curLevel = curLevel + 1
                         ElseIf Mid(curFormula, i, 1) = ")" Then
                             curLevel = curLevel - 1
                         End If
+
+                        'check if we've found the end of the ProFX formula
                         If curLevel = 0 Then
-                            MsgBox "happy"
+                            endLoc = i
+
+                            'evaluate the ProFX formula
+                            replacement = Application.Evaluate(Mid(curFormula, startLoc, endLoc - startLoc + 1))
+                            'add quotes around any strings
+                            If Not IsNumeric(replacement) Then
+                                replacement = """" & replacement & """"
+                            End If
+
+                            'update the current formula with the evaluated ProFX value
+                            curFormula = left(curFormula, startLoc - 1) & replacement & right(curFormula, Len(curFormula) - endLoc)
+
+                            Exit For
                         End If
                     Next i
                 Loop
             Next f
+
+            'replace the old formula with the new (cleaned) formula
+            c.Formula = curFormula
         End If
     Next
 

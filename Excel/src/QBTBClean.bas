@@ -75,8 +75,9 @@ Sub CleanTheTB(control As IRibbonControl)
             splits = Split(Cells(i, accountCol).Value, ":")
             rightmost = splits(UBound(splits))
 
-            Dim account As Integer
+            Dim account As Long
             Dim name As String
+            account = 0
             If QBOnline = True Then
                 'Account number is at beginning, name is after last colon
                 If IsNumeric(Split(splits(0))(0)) = True Then
@@ -118,6 +119,7 @@ Sub CleanTheTB(control As IRibbonControl)
     Range(Cells(startRow, creditCol + 2), Cells(curRow, creditCol + 2)).HorizontalAlignment = xlCenter
     Range(Cells(startRow, creditCol + 4), Cells(curRow, creditCol + 4)).NumberFormat = "_(* #,##0.00_);_(* (#,##0.00);_(* ""-""??_);_(@_)"
     Range(Cells(1, creditCol + 2), Cells(1, creditCol + 4)).Columns.EntireColumn.AutoFit
+    Range(Cells(startRow, creditCol + 2), Cells(curRow, creditCol + 4)).VerticalAlignment = xlCenter
 
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True

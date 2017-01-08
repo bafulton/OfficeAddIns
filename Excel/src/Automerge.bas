@@ -7,14 +7,14 @@ Sub RunAutomerge(control As IRibbonControl)
     Selection.VerticalAlignment = xlTop
     Selection.HorizontalAlignment = xlLeft
 
-    If ActiveCell.MergeCells = False Then
-        'Merge the selection
-        Selection.Merge
-        Selection.WrapText = True
-    Else
+    If Selection.MergeCells = True Then
         'Unmerge the selection
         Selection.UnMerge
         Selection.WrapText = False
+    Else
+        'Merge the selection
+        Selection.Merge
+        Selection.WrapText = True
     End If
 
 End Sub
