@@ -1,7 +1,7 @@
 v1.4.2 Changelog
-- Bugfix: Replace functions ???.
 - Bugfix: QB TB clean now copies account numbers properly.
 - Bugfix: Automerge only unmerges if a merged cell is the only selected cell.
+- Added: Replace functions macro v2 (much more stable).
 
 v1.4.1 Changelog
 - Added: New default Word template.
