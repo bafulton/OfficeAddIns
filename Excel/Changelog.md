@@ -1,8 +1,15 @@
+v1.4.2 Changelog
+- Bugfix: Replace functions ???.
+- Bugfix: QB TB clean now copies account numbers properly.
+- Bugfix: Automerge only unmerges if a merged cell is the only selected cell.
+
+v1.4.1 Changelog
+- Added: New default Word template.
+
 v1.4.0 Changelog
 - Bugfix: Fixed hang on load of spreadsheet.
 - Bugfix: Eliminated annoying popup when removing hyperlinks.
 - Bugfix: Made compare values function work again!
-- Added: New default Word template.
 - Added: Support for QB Online TB clean. Also made the cleaned TB easier to read.
 - Added: Add hyperlinks now bolds the text and makes the whole cell clickable.
 - Added: Automerge now unmerges the cells if clicked again.

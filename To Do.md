@@ -1,8 +1,6 @@
 B&S Add-Ins Thoughts
 
- - fix Replace Functions error--unsure what's going on
- - in fact, check all existing functions to ensure they still work
-
+ - add random sample functionality
  - remove hyperlinks removes all cell formatting (color/data type/borders/etc.)
  - add "Center Across Cells" functionality? (vs. merge & center)
  - add ability to sync audit calendar to Outlook?
