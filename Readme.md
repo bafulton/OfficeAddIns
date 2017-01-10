@@ -1,4 +1,9 @@
-B&S Add-Ins Thoughts
+Installation Instructions:
+1. Close all open instances of Word and Excel.
+2. Run install.bat
+3. Profit!
+
+B&S Add-In To Do:
 
  - add random sample functionality
  - remove hyperlinks removes all cell formatting (color/data type/borders/etc.)
