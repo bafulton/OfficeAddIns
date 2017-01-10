@@ -1,4 +1,5 @@
 Installation Instructions:
+
 1. Close all open instances of Word and Excel.
 2. Run install.bat
 3. Profit!
@@ -25,7 +26,8 @@ B&S Add-In To Do:
  - reverse selection
  - sort items by color
 
-Unsolvable:
+Unsolvable Problems:
+
  - add link function should allow you to double-click an already selected cell to indicate it should be the link target
  - when headers are rolled forward, can they detect it's a new year and remind users to update risk levels?
  - fix =LEN() #VALUE formula error in add header function (see errors folder) (tried to fix--LEN is returning error, but no idea why and Google is no help)
