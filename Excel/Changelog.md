@@ -1,4 +1,8 @@
 v1.4.2 Changelog
+- Bugfix: QB TB clean now handles non-numeric accounts (eg, "1100F") properly.
+- Changed: QB TB Clean now asks to include $0 balances (instead of exclude).
+
+v1.4.2 Changelog
 - Bugfix: QB TB clean now copies account numbers properly.
 - Bugfix: Automerge only unmerges if a merged cell is the only selected cell.
 - Added: Replace functions macro v2 (much more stable).

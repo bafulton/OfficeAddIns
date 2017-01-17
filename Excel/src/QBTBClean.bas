@@ -1,10 +1,9 @@
-Attribute VB_Name = "QBTBClean"
 'Blackman & Sloop Excel Add-In, v1.4 (10/2/16)
 
 Sub CleanTheTB(control As IRibbonControl)
     On Error Resume Next
 
-    msg = MsgBox("Exclude $0 balances?", vbYesNo, "$0 Balances")
+    msg = MsgBox("Include $0 balances?", vbYesNo, "$0 Balances")
 
     Application.DisplayAlerts = False
     Application.ScreenUpdating = False
@@ -19,7 +18,7 @@ Sub CleanTheTB(control As IRibbonControl)
             debitCol = cell.Column
         End If
         If cell.Value = "Credit" Then
-            MsgBox cell.Col
+            'MsgBox cell.Col
             found = found + 1
             creditCol = cell.Column
         End If
@@ -69,18 +68,19 @@ Sub CleanTheTB(control As IRibbonControl)
     curRow = startRow
     For i = startRow To endRow
         If (Cells(i, debitCol).Value > 0 Xor Cells(i, creditCol).Value > 0) Or _
-            (msg = vbNo And (IsEmpty(Cells(i, debitCol).Value) Xor IsEmpty(Cells(i, creditCol).Value))) Then
+            (msg = vbYes And (IsEmpty(Cells(i, debitCol).Value) Xor IsEmpty(Cells(i, creditCol).Value))) Then
 
             'Split and add the account number and description
             splits = Split(Cells(i, accountCol).Value, ":")
             rightmost = splits(UBound(splits))
 
-            Dim account As Long
+            Dim account As String
             Dim name As String
-            account = 0
+            account = ""
             If QBOnline = True Then
                 'Account number is at beginning, name is after last colon
-                If IsNumeric(Split(splits(0))(0)) = True Then
+                'This only checks if the first digit of the potential account is a number, as "1500f" is still an account
+                If IsNumeric(left(Split(splits(0))(0), 1)) = True Then
                     account = Split(splits(0))(0)
                 End If
 
@@ -92,17 +92,19 @@ Sub CleanTheTB(control As IRibbonControl)
             
             Else
                 'Account number and name are after the last colon (split on the '·')
-                temp = Split(rightmost, " · ")
-                If IsNumeric(temp(0)) = True Then
-                    account = temp(0)
-                    name = temp(1)
+                splits = Split(rightmost, " · ")
+                count = UBound(splits) - LBound(splits) + 1
+                If count = 2 Then
+                    account = splits(0)
+                    name = splits(1)
                 Else
-                    name = temp(0)
+                    'Account number is missing--everything is name
+                    name = rightmost
                 End If
             End If
 
             'Add the values
-            If account <> 0 Then
+            If account <> "" Then
                 Cells(curRow, creditCol + 2) = account
             Else
                 'Highlight missing account numbers
@@ -125,4 +127,3 @@ Sub CleanTheTB(control As IRibbonControl)
     Application.ScreenUpdating = True
 
 End Sub
-
